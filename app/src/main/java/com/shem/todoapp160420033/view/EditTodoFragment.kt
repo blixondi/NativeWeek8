@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.shem.todoapp160420033.R
 import com.shem.todoapp160420033.viewmodel.DetailTodoViewModel
@@ -36,7 +38,12 @@ class EditTodoFragment : Fragment() {
     }
 
     fun observeViewModel(){
-
+        viewModel.todoLD.observe(viewLifecycleOwner, Observer {
+            val txtTitle = view?.findViewById<EditText>(R.id.txtTitle)
+            val txtNotes = view?.findViewById<EditText>(R.id.txtNotes)
+            txtTitle?.setText(it.title)
+            txtNotes?.setText(it.notes)
+        })
     }
 
 }

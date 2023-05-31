@@ -1,5 +1,6 @@
 package com.shem.todoapp160420033.view
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class TodoListAdapter(val todoList:ArrayList<Todo>,
     {
         var checktask = holder.view.findViewById<CheckBox>(R.id.checkTask)
         checktask.text = todoList[position].title
+        checktask.setOnCheckedChangeListener { compoundButton, b -> adapterOnClick(todoList[position])  }
     }
     override fun getItemCount(): Int {
         return todoList.size

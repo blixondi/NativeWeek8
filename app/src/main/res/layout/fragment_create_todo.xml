@@ -103,6 +103,7 @@
                 android:id="@+id/radioLow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:tag="1"
                 android:text="Low Priority" />
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,10 @@ android {
     namespace 'com.shem.todoapp160420033'
     compileSdk 33
 
+    dataBinding{
+        enabled true
+    }
+
     defaultConfig {
         applicationId "com.shem.todoapp160420033"
         minSdk 24

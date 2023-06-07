@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,8 @@ import com.shem.todoapp160420033.databinding.TodoItemLayoutBinding
 import com.shem.todoapp160420033.model.Todo
 
 class TodoListAdapter(val todoList:ArrayList<Todo>,
-                      val adapterOnClick : (Todo) -> Unit) : RecyclerView.Adapter<TodoListAdapter.TodoViewHolder>() {
+                      val adapterOnClick : (Todo) -> Unit) : RecyclerView.Adapter<TodoListAdapter.TodoViewHolder>(),
+                      TodoItemLayoutInterface {
     class TodoViewHolder(var view:TodoItemLayoutBinding): RecyclerView.ViewHolder(view.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
@@ -24,6 +26,8 @@ class TodoListAdapter(val todoList:ArrayList<Todo>,
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int)
     {
         holder.view.todo = todoList[position]
+        holder.view.checklistener = this
+        holder.view.editlistener = this
         /*var checktask = holder.view.findViewById<CheckBox>(R.id.checkTask)
         var imgEdit = holder.view.findViewById<ImageView>(R.id.imgEdit)
         checktask.text = todoList[position].title
@@ -45,6 +49,18 @@ class TodoListAdapter(val todoList:ArrayList<Todo>,
         todoList.clear()
         todoList.addAll(newTodoList)
         notifyDataSetChanged()
+    }
+
+    override fun onCheckedChange(cb: CompoundButton, isChecked: Boolean, obj: Todo) {
+        if(isChecked){
+            adapterOnClick(obj)
+        }
+    }
+
+    override fun onTodoEditClick(v: View) {
+//        val uuid = v.tag.toString().toInt()
+        val action = TodoListFragmentDirections.actionEditTodoFragment(v.tag.toString().toInt())
+        Navigation.findNavController(v).navigate(action)
     }
 
 }

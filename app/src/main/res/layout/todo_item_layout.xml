@@ -7,6 +7,12 @@
         <variable
             name="todo"
             type="com.shem.todoapp160420033.model.Todo" />
+        <variable
+            name="checklistener"
+            type="com.shem.todoapp160420033.view.TodoItemLayoutInterface" />
+        <variable
+            name="editlistener"
+            type="com.shem.todoapp160420033.view.TodoItemLayoutInterface" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +28,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:text="@{todo.title}"
+            android:onCheckedChanged="@{(cb, isChecked) -> checklistener.onCheckedChange(cb, isChecked, todo)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +36,8 @@
 
         <ImageView
             android:id="@+id/imgEdit"
+            android:tag="@{todo.uuid}"
+            android:onClick="@{editlistener::onTodoEditClick}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"

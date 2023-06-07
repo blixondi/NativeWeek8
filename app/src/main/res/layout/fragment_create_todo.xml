@@ -89,12 +89,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
+                android:tag="3"
                 android:text="High Priority" />
 
             <RadioButton
                 android:id="@+id/radioMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:tag="2"
                 android:text="Medium Priority" />
 
             <RadioButton

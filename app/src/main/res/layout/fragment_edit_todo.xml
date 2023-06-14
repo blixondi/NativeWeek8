@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="todo"
+            type="com.shem.todoapp160420033.model.Todo" />
     </data>
 
     <FrameLayout

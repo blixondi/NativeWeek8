@@ -25,6 +25,7 @@ val MIGRATION_1_2 = object : Migration(1,2){
 
 val MIGRATION_2_3 = object : Migration(2,3){
     override fun migrate(database: SupportSQLiteDatabase) {
+        //saya memakai Integer karena tipe data Boolean tidak ada di SQLite
         database.execSQL("ALTER TABLE todo ADD COLUMN is_done INTEGER DEFAULT 0 NOT NULL")
         database.execSQL("INSERT INTO todo(title,notes,priority,is_done) VALUES('Study hard','Play harder',3,0)")
     }

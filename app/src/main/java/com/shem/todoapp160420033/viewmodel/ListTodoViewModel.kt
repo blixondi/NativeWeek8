@@ -39,5 +39,12 @@ class ListTodoViewModel(application: Application):AndroidViewModel(application),
         }
     }
 
+    fun finishTask(uuid: Int){
+        launch{
+            val db = buildDb(getApplication())
+            db.todoDao().finishTask(uuid)
+        }
+    }
+
 
 }

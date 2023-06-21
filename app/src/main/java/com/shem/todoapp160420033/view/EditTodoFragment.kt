@@ -11,10 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.shem.todoapp160420033.R
 import com.shem.todoapp160420033.databinding.FragmentEditTodoBinding
+import com.shem.todoapp160420033.model.Todo
 import com.shem.todoapp160420033.viewmodel.DetailTodoViewModel
 
 
-class EditTodoFragment : Fragment() {
+class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
     private lateinit var viewModel: DetailTodoViewModel
     private lateinit var dataBinding:FragmentEditTodoBinding
     override fun onCreateView(
@@ -37,14 +38,17 @@ class EditTodoFragment : Fragment() {
         txtJudulTodo.text = "Edit Todo"
         btnAdd.text = "Save Changes"
 
+        dataBinding.radioListener = this
+        dataBinding.saveListener = this
+
         val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
         viewModel.fetch(uuid)
 
-        btnAdd.setOnClickListener {
-            viewModel.update(txtTitle.text.toString(), txtNotes.text.toString(), radioButton.tag.toString().toInt(), uuid)
-            Toast.makeText(view.context, "Todo updated", Toast.LENGTH_SHORT).show()
-            Navigation.findNavController(it).popBackStack()
-        }
+//        btnAdd.setOnClickListener {
+//            viewModel.update(txtTitle.text.toString(), txtNotes.text.toString(), radioButton.tag.toString().toInt(), uuid)
+//            Toast.makeText(view.context, "Todo updated", Toast.LENGTH_SHORT).show()
+//            Navigation.findNavController(it).popBackStack()
+//        }
         observeViewModel()
     }
 
@@ -64,6 +68,15 @@ class EditTodoFragment : Fragment() {
 //            }
             dataBinding.todo = it
         })
+    }
+
+    override fun onRadioClick(v: View, priority: Int, obj: Todo) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onTodoSaveChangesClick(v: View, obj: Todo) {
+        viewModel.update(obj.title, obj.notes, obj.priority, obj.uuid)
+        Toast.makeText(v.context, "Todo Updated", Toast.LENGTH_SHORT).show()
     }
 
 }

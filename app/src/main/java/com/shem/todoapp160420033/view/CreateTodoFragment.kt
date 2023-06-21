@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.shem.todoapp160420033.R
 import com.shem.todoapp160420033.model.Todo
+import com.shem.todoapp160420033.util.NotificationHelper
 import com.shem.todoapp160420033.viewmodel.DetailTodoViewModel
 
 
@@ -34,6 +35,7 @@ class CreateTodoFragment : Fragment() {
 
         val btnAdd = view.findViewById<Button>(R.id.btnAdd)
         btnAdd.setOnClickListener {
+            NotificationHelper(view.context).createNotification("Todo Created","A new Todo has been created! Stay focused!")
             val txtTitle = view.findViewById<EditText>(R.id.txtTitle)
             val txtNotes = view.findViewById<EditText>(R.id.txtNotes)
             val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroupPriority)

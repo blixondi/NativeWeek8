@@ -28,6 +28,9 @@ class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataBinding.radioListener = this
+        dataBinding.saveListener = this
+
         viewModel = ViewModelProvider(this).get(DetailTodoViewModel::class.java)
         val txtJudulTodo = view.findViewById<TextView>(R.id.txtJudulTodo)
         val btnAdd = view.findViewById<Button>(R.id.btnAdd)
@@ -38,8 +41,7 @@ class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
         txtJudulTodo.text = "Edit Todo"
         btnAdd.text = "Save Changes"
 
-        dataBinding.radioListener = this
-        dataBinding.saveListener = this
+
 
         val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
         viewModel.fetch(uuid)

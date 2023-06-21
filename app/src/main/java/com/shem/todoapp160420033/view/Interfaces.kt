@@ -18,3 +18,12 @@ interface RadioClick{
 interface TodoSaveChangesClick{
     fun onTodoSaveChangesClick(v: View, obj: Todo)
 }
+
+interface ButtonAddTodoClickListener{
+    fun onButtonAddTodo(v:View)
+}
+
+interface TodoCreateLayoutInterface{
+    fun onRadioClick(v:View, priority:Int, obj:Todo)
+    fun onButtonAddClick(v:View)
+}

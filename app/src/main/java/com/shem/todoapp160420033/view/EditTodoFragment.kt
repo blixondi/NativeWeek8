@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -23,7 +24,8 @@ class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_todo, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_todo, container, false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,11 +48,11 @@ class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
         val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
         viewModel.fetch(uuid)
 
-//        btnAdd.setOnClickListener {
-//            viewModel.update(txtTitle.text.toString(), txtNotes.text.toString(), radioButton.tag.toString().toInt(), uuid)
-//            Toast.makeText(view.context, "Todo updated", Toast.LENGTH_SHORT).show()
-//            Navigation.findNavController(it).popBackStack()
-//        }
+        btnAdd.setOnClickListener {
+            viewModel.update(txtTitle.text.toString(), txtNotes.text.toString(), radioButton.tag.toString().toInt(), uuid)
+            Toast.makeText(view.context, "Todo updated", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(it).popBackStack()
+        }
         observeViewModel()
     }
 

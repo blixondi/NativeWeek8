@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="todo"
+            type="com.shem.todoapp160420033.model.Todo" />
+        <variable
+            name="radioListener"
+            type="com.shem.todoapp160420033.view.TodoCreateLayoutInterface" />
+        <variable
+            name="buttonListener"
+            type="com.shem.todoapp160420033.view.TodoCreateLayoutInterface" />
     </data>
 
     <FrameLayout
@@ -45,6 +53,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
+                    android:text="@={todo.title}"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,6 +75,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtNotes"
                     android:layout_width="match_parent"
+                    android:text="@={todo.notes}"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,6 +86,7 @@
                 android:layout_marginTop="192dp"
                 android:layout_marginEnd="32dp"
                 android:text="@string/add_todo"
+                android:onClick="@{buttonListener::onButtonAddClick}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
@@ -94,7 +105,8 @@
                     android:id="@+id/radioHigh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="@{todo.priority==3?true:false}"
+                    android:onClick="@{(view)->radioListener.onRadioClick(view, 3, todo)}"
                     android:tag="3"
                     android:text="High Priority" />
 
@@ -102,6 +114,8 @@
                     android:id="@+id/radioMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="@{todo.priority==2?true:false}"
+                    android:onClick="@{(view)->radioListener.onRadioClick(view, 2, todo)}"
                     android:tag="2"
                     android:text="Medium Priority" />
 
@@ -109,6 +123,8 @@
                     android:id="@+id/radioLow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="@{todo.priority==1?true:false}"
+                    android:onClick="@{(view)->radioListener.onRadioClick(view, 1, todo)}"
                     android:tag="1"
                     android:text="Low Priority" />
             </RadioGroup>

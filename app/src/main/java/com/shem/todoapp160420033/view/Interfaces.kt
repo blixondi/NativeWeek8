@@ -27,3 +27,11 @@ interface TodoCreateLayoutInterface{
     fun onRadioClick(v:View, priority:Int, obj:Todo)
     fun onButtonAddClick(v:View)
 }
+
+interface DateClickListener{
+    fun onDateClick(v: View)
+}
+
+interface TimeClickListener{
+    fun onTimeClick(v: View)
+}

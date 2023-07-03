@@ -1,5 +1,6 @@
 package com.shem.todoapp160420033.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -39,7 +40,7 @@ class CreateTodoFragment : Fragment(), TodoCreateLayoutInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataBinding.todo = Todo("","",3)
+        dataBinding.todo = Todo("","",3,0)
         viewModel = ViewModelProvider(this).get(DetailTodoViewModel::class.java)
         dataBinding.buttonListener = this
         dataBinding.radioListener = this
@@ -70,10 +71,24 @@ class CreateTodoFragment : Fragment(), TodoCreateLayoutInterface {
     }
 
     override fun onRadioClick(v: View, priority: Int, obj: Todo) {
-        TODO("Not yet implemented")
+        obj.priority = priority
     }
 
     override fun onButtonAddClick(v: View) {
-        TODO("Not yet implemented")
+        viewModel.addTodo(dataBinding.todo!!)
+        Toast.makeText(v.context, "Todo Created",Toast.LENGTH_SHORT).show()
+
+        val myWorkRequest = OneTimeWorkRequestBuilder<TodoWorker>()
+                .setInitialDelay(30, TimeUnit.SECONDS)
+                .setInputData(
+                    workDataOf(
+                    "title" to "Todo Created",
+                    "message" to "A new Todo has been created! Stay focused!")
+                )
+                .build()
+        WorkManager.getInstance(requireContext()).enqueue(myWorkRequest)
+
+        Navigation.findNavController(v).popBackStack()
+
     }
 }

@@ -16,7 +16,7 @@ import com.shem.todoapp160420033.model.Todo
 import com.shem.todoapp160420033.viewmodel.DetailTodoViewModel
 
 
-class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
+class EditTodoFragment : Fragment(), RadioClick, TodoCreateLayoutInterface, DateClickListener, TimeClickListener {
     private lateinit var viewModel: DetailTodoViewModel
     private lateinit var dataBinding:FragmentEditTodoBinding
     override fun onCreateView(
@@ -30,57 +30,53 @@ class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataBinding.radioListener = this
-        dataBinding.saveListener = this
-
         viewModel = ViewModelProvider(this).get(DetailTodoViewModel::class.java)
-        val txtJudulTodo = view.findViewById<TextView>(R.id.txtJudulTodo)
-        val btnAdd = view.findViewById<Button>(R.id.btnAdd)
-        val txtTitle = view.findViewById<EditText>(R.id.txtTitle)
-        val txtNotes = view.findViewById<EditText>(R.id.txtNotes)
-        val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroupPriority)
-        val radioButton = view.findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
-        txtJudulTodo.text = "Edit Todo"
-        btnAdd.text = "Save Changes"
-
-
-
         val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
         viewModel.fetch(uuid)
-
-        btnAdd.setOnClickListener {
-            viewModel.update(txtTitle.text.toString(), txtNotes.text.toString(), radioButton.tag.toString().toInt(), uuid)
-            Toast.makeText(view.context, "Todo updated", Toast.LENGTH_SHORT).show()
-            Navigation.findNavController(it).popBackStack()
-        }
         observeViewModel()
     }
 
     fun observeViewModel(){
         viewModel.todoLD.observe(viewLifecycleOwner, Observer {
-//            val txtTitle = view?.findViewById<EditText>(R.id.txtTitle)
-//            val txtNotes = view?.findViewById<EditText>(R.id.txtNotes)
-//            val radioLow = view?.findViewById<RadioButton>(R.id.radioLow)
-//            val radioMedium = view?.findViewById<RadioButton>(R.id.radioMedium)
-//            val radioHigh = view?.findViewById<RadioButton>(R.id.radioHigh)
-//            txtTitle?.setText(it.title)
-//            txtNotes?.setText(it.notes)
-//            when(it.priority){
-//                1 -> radioLow?.isChecked = true
-//                2 -> radioMedium?.isChecked = true
-//                else -> radioHigh?.isChecked = true
-//            }
             dataBinding.todo = it
+            dataBinding.radioListener = this
+            dataBinding.buttonListener = this
+            dataBinding.dateListener = this
+            dataBinding.timeListener = this
+
+            /*val txtTitle = view?.findViewById<EditText>(R.id.txtTitle)
+            val txtNotes = view?.findViewById<EditText>(R.id.txtNotes)
+            val radioLow = view?.findViewById<RadioButton>(R.id.radioLow)
+            val radioMedium = view?.findViewById<RadioButton>(R.id.radioMedium)
+            val radioHigh = view?.findViewById<RadioButton>(R.id.radioHigh)
+            txtTitle?.setText(it.title)
+            txtNotes?.setText(it.notes)
+            when(it.priority){
+                1 -> radioLow?.isChecked = true
+                2 -> radioMedium?.isChecked = true
+                else -> radioHigh?.isChecked = true
+            }*/
         })
     }
 
     override fun onRadioClick(v: View, priority: Int, obj: Todo) {
+        obj.priority = priority
+    }
+
+    override fun onButtonAddClick(v: View) {
+        dataBinding.todo?.let{
+            viewModel.update(it.title, it.notes, it.priority, it.uuid)
+            Toast.makeText(v.context, "Todo Updated", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(v).popBackStack()
+        }
+    }
+
+    override fun onDateClick(v: View) {
         TODO("Not yet implemented")
     }
 
-    override fun onTodoSaveChangesClick(v: View, obj: Todo) {
-        viewModel.update(obj.title, obj.notes, obj.priority, obj.uuid)
-        Toast.makeText(v.context, "Todo Updated", Toast.LENGTH_SHORT).show()
+    override fun onTimeClick(v: View) {
+        TODO("Not yet implemented")
     }
 
 }
